@@ -1197,9 +1197,24 @@ h1 span {
   min-height: 100vh;
   flex-direction: column;
   overflow-x: clip;
+  --paper: #ffffff;
+  --surface: #f3f5f1;
+  --line: #d9ded5;
+}
+
+:root[data-theme="dark"] .visitor-page {
+  --paper: #151d19;
+  --surface: #222c26;
+  --line: #39443e;
 }
 
 .visitor-page main { flex: 1; }
+
+.visitor-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
 
 .visitor-main { padding-block: 74px 96px; }
 
@@ -1490,6 +1505,8 @@ html.is-loading .loading-screen { display: grid; }
   .visitor-metrics { grid-template-columns: minmax(0, 1fr); }
   .visitor-metric { min-height: 190px; }
   .visitor-metric-value { font-size: 56px; }
+  .visitor-header-actions { gap: 10px; }
+  .visitor-back-link { font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

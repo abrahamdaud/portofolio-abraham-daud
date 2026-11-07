@@ -1,9 +1,38 @@
 (() => {
+  const root = document.documentElement;
+  const themeToggle = document.querySelector('#visitor-theme-toggle');
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  let savedTheme;
+
   try {
-    const savedTheme = localStorage.getItem('abraham-daud-theme');
-    if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+    savedTheme = localStorage.getItem('abraham-daud-theme');
   } catch {
-    document.documentElement.dataset.theme = 'light';
+    savedTheme = null;
+  }
+
+  function applyTheme(theme, savePreference = false) {
+    const isDark = theme === 'dark';
+    root.dataset.theme = isDark ? 'dark' : 'light';
+    if (themeToggle) {
+      themeToggle.setAttribute('aria-label', isDark ? 'Aktifkan tema putih' : 'Aktifkan tema gelap');
+    }
+    if (themeColor) themeColor.content = isDark ? '#151d19' : '#ffffff';
+
+    if (savePreference) {
+      try {
+        localStorage.setItem('abraham-daud-theme', isDark ? 'dark' : 'light');
+      } catch {
+        // The selected theme remains active until the page is closed.
+      }
+    }
+  }
+
+  applyTheme(savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+    });
   }
 
   const totalCount = document.querySelector('#total-count');
