@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Jumlah kunjungan tersimpan pada portofolio Abraham Daud.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>AD | Jumlah Pengunjung</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="visitor-page">
+  <header class="topbar shell">
+    <a class="wordmark" href="index.html" aria-label="Abraham Daud, beranda">AD<span>.</span></a>
+    <a class="visitor-back-link" href="index.html"><span aria-hidden="true">←</span> Kembali ke portofolio</a>
+  </header>
+
+  <main class="visitor-main shell">
+    <p class="section-label">07 / Statistik pengunjung</p>
+    <div class="visitor-intro">
+      <h1>Jumlah pengunjung.</h1>
+      <p>Total kunjungan disimpan di Vercel Blob dan diperbarui saat halaman ini dibuka atau dimuat ulang.</p>
+    </div>
+
+    <section class="visitor-metrics" aria-label="Statistik pengunjung">
+      <article class="visitor-metric">
+        <p class="visitor-metric-label">Total kunjungan</p>
+        <strong class="visitor-metric-value" id="total-count" aria-live="polite">—</strong>
+        <p class="visitor-metric-note">....</p>
+      </article>
+    </section>
+
+  </main>
+
+  <footer class="footer shell">
+    <p class="footer-note">© <span id="visitor-year"></span> Abraham Daud</p>
+    <p class="footer-note">Jumlah tersimpan</p>
+  </footer>
+
+  <script src="visitor-tracker.js"></script>
+  <script src="visitor-stats.js"></script>
+</body>
+</html>
