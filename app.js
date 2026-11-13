@@ -386,53 +386,39 @@ function initializePortfolio() {
 
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
-    const contactSubmitButton = contactForm.querySelector('.submit-button');
     const contactSubmitStatus = document.querySelector('#contact-submit-status');
 
-    contactForm.addEventListener('submit', async (event) => {
+    contactForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
       const formData = new FormData(contactForm);
       const name = String(formData.get('nama') || '').trim();
       const email = String(formData.get('email') || '').trim();
       const message = String(formData.get('pesan') || '').trim();
+      const subject = 'Pesan dari website Abraham Daud';
+      const body = `Nama: ${name}\nEmail: ${email}\n\nPesan:\n${message}`;
+      const composeUrl = new URL('https://mail.google.com/mail/');
+      composeUrl.searchParams.set('view', 'cm');
+      composeUrl.searchParams.set('fs', '1');
+      composeUrl.searchParams.set('to', 'abrahamdaud511@gmail.com');
+      composeUrl.searchParams.set('su', subject);
+      composeUrl.searchParams.set('body', body);
 
-      if (!navigator.onLine) {
-        if (contactSubmitStatus) contactSubmitStatus.textContent = 'Tidak ada koneksi. Pesan belum terkirim; coba lagi saat online.';
-        return;
-      }
+      const fallbackLink = document.createElement('a');
+      fallbackLink.href = composeUrl.toString();
+      fallbackLink.target = '_blank';
+      fallbackLink.rel = 'noopener noreferrer';
+      fallbackLink.textContent = 'Buka Gmail';
 
-      contactSubmitButton.disabled = true;
-      if (contactSubmitStatus) contactSubmitStatus.textContent = 'Mengirim pesan ke Gmail...';
+      const composeWindow = window.open(composeUrl.toString(), '_blank');
+      if (composeWindow) composeWindow.opener = null;
 
-      try {
-        const response = await fetch('https://formsubmit.co/ajax/abrahamdaud511@gmail.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
-          body: JSON.stringify({
-            nama: name,
-            email,
-            pesan: message,
-            _replyto: email,
-            _subject: 'Pesan dari website Abraham Daud',
-            _captcha: 'false'
-          })
-        });
-        const result = await response.json().catch(() => ({}));
-
-        if (!response.ok || result.success === false || result.success === 'false') {
-          throw new Error('Contact message submission was rejected.');
-        }
-
-        contactForm.reset();
-        if (contactSubmitStatus) contactSubmitStatus.textContent = 'Pesan berhasil dikirim ke Gmail Abraham Daud.';
-      } catch {
-        if (contactSubmitStatus) contactSubmitStatus.textContent = 'Pesan belum terkirim. Periksa koneksi lalu coba lagi.';
-      } finally {
-        contactSubmitButton.disabled = false;
+      if (contactSubmitStatus) {
+        contactSubmitStatus.replaceChildren(
+          document.createTextNode('Draf sudah disiapkan. Klik Kirim di Gmail untuk mengirim, atau '),
+          fallbackLink,
+          document.createTextNode(' jika Gmail tidak terbuka otomatis.')
+        );
       }
     });
   }
