@@ -241,9 +241,14 @@ function initializePortfolio() {
 
   const heroSlides = [...document.querySelectorAll('.hero-slide')];
   const heroIndexLabel = document.querySelector('.art-index');
+  const heroArt = document.querySelector('.hero-art');
 
   if (heroSlides.length && heroIndexLabel) {
     let activeHeroIndex = 0;
+    let heroTimer = null;
+
+    // Foto profil pengguna ada di slide pertama (index 0)
+    const profileSlideIndex = 0;
 
     function showHeroSlide(index) {
       activeHeroIndex = (index + heroSlides.length) % heroSlides.length;
@@ -253,9 +258,34 @@ function initializePortfolio() {
       heroIndexLabel.textContent = `AD / ${String(activeHeroIndex + 1).padStart(2, '0')}`;
     }
 
-    setInterval(() => {
-      showHeroSlide(activeHeroIndex + 1);
-    }, 9000);
+    function startHeroAutoPlay() {
+      if (heroTimer) return;
+      heroTimer = window.setInterval(() => {
+        showHeroSlide(activeHeroIndex + 1);
+      }, 9000);
+    }
+
+    function stopHeroAutoPlay() {
+      if (!heroTimer) return;
+      window.clearInterval(heroTimer);
+      heroTimer = null;
+    }
+
+    // Saat pointer menyentuh atau area profil diklik: langsung tampilkan foto profil
+    // dan hentikan pergantian otomatis sementara.
+    function focusProfileSlide() {
+      stopHeroAutoPlay();
+      showHeroSlide(profileSlideIndex);
+    }
+
+    if (heroArt) {
+      heroArt.addEventListener('mouseenter', focusProfileSlide);
+      heroArt.addEventListener('click', focusProfileSlide);
+      // Saat pointer keluar dari area profil, lanjutkan pergantian otomatis.
+      heroArt.addEventListener('mouseleave', startHeroAutoPlay);
+    }
+
+    startHeroAutoPlay();
   }
 
   const reviewForm = document.querySelector('#review-form');
