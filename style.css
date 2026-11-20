@@ -503,6 +503,24 @@ h1 span {
   transform: scale(1);
 }
 
+/* === PORTRAIT FRAME STYLING === */
+.hero-slide.portrait-frame {
+  border: 4px solid var(--ink);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+  object-position: bottom center;
+  transition: box-shadow 180ms ease;
+}
+
+.hero-slide.portrait-frame:hover {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Pastikan slide aktif portrait tetap terlihat jelas */
+.hero-slide.is-active.portrait-frame {
+  transform: scale(1);
+}
+
 .hero-art::after {
   position: absolute;
   inset: 0;
