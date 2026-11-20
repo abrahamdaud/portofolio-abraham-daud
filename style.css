@@ -929,14 +929,21 @@ h1 span {
 
 .testimonial-track {
   display: flex;
+  flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
+  padding: 8px 0;
+}
+
+/* Marquee hanya aktif saat ulasan banyak (lihat app.js) agar tidak tampak dobel */
+.testimonial-track.is-marquee {
+  flex-wrap: nowrap;
   width: max-content;
   min-width: 100%;
-  padding: 8px 0;
   animation: testimonial-marquee 20s linear infinite;
 }
 
-.testimonial-grid:hover .testimonial-track {
+.testimonial-grid:hover .testimonial-track.is-marquee {
   animation-play-state: paused;
 }
 

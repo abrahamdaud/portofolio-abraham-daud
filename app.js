@@ -335,7 +335,14 @@ function initializePortfolio() {
     const track = document.createElement('div');
     track.className = 'testimonial-track';
 
-    [...reviewItems, ...reviewItems].forEach((review) => {
+    // Animasi marquee butuh duplikasi kartu agar loop-nya mulus. Duplikasi hanya
+    // dipakai saat ulasan cukup banyak; dengan sedikit ulasan tampilkan sekali
+    // saja supaya tidak terlihat dobel.
+    const useMarquee = reviewItems.length >= 4;
+    if (useMarquee) track.classList.add('is-marquee');
+    const itemsToRender = useMarquee ? [...reviewItems, ...reviewItems] : reviewItems;
+
+    itemsToRender.forEach((review) => {
       const card = document.createElement('blockquote');
       card.className = 'testimonial-card';
       card.innerHTML = `
