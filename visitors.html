@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
   <title>AD | Jumlah Pengunjung</title>
   <style>
     :root {
@@ -377,7 +378,7 @@
         <section class="metric-card" aria-label="Total kunjungan">
           <div>
             <div class="metric-label">TOTAL KUNJUNGAN</div>
-            <div class="metric-number">48</div>
+            <div class="metric-number" id="total-count" aria-live="polite">&mdash;</div>
           </div>
           <div class="metric-dot">....</div>
         </section>
@@ -470,5 +471,8 @@
     }, { passive: true });
   </script>
 
+  <!-- Pencatatan & statistik pengunjung (angka diambil dari Vercel Blob) -->
+  <script src="visitor-tracker.js"></script>
+  <script src="visitor-stats.js"></script>
 </body>
 </html>
