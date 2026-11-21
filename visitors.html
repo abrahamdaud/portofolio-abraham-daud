@@ -1,11 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f4ef">
   <meta name="description" content="Jumlah kunjungan tersimpan pada portofolio Abraham Daud.">
-  <meta name="robots" content="noindex, nofollow">
   <title>AD | Jumlah Pengunjung</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,6 +12,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="visitor-page">
+
   <header class="topbar shell">
     <a class="wordmark" href="index.html" aria-label="Abraham Daud, beranda">AD<span>.</span></a>
     <div class="visitor-header-actions">
@@ -30,18 +30,41 @@
   </header>
 
   <main class="visitor-main shell">
-    <p class="section-label">07 / Statistik pengunjung</p>
-    <div class="visitor-intro">
-      <h1>Jumlah pengunjung.</h1>
-      <p>Total kunjungan disimpan di Vercel Blob dan diperbarui saat halaman ini dibuka atau dimuat ulang.</p>
-    </div>
 
-    <section class="visitor-metrics" aria-label="Statistik pengunjung">
-      <article class="visitor-metric">
-        <p class="visitor-metric-label">Total kunjungan</p>
-        <strong class="visitor-metric-value" id="total-count" aria-live="polite">—</strong>
-        <p class="visitor-metric-note">....</p>
-      </article>
+    <section class="split-layout" aria-label="Layout statistik pengunjung">
+      <!-- Sisi Kiri: Konten Website -->
+      <section class="left-panel">
+        <span class="tag">Portofolio</span>
+        <h1>Jelajah <span>Data Pengunjung</span></h1>
+        <p>Total kunjungan disimpan di Vercel Blob dan diperbarui saat halaman ini dibuka atau dimuat ulang. Setiap kunjungan unik dicatat dan ditampilkan di bawah ini.</p>
+
+        <div class="bio-highlights">
+          <div class="highlight-card">
+            <strong>Kunjungan Hari Ini</strong>
+            <span id="today-count">—</span>
+          </div>
+          <div class="highlight-card">
+            <strong>Kunjungan Bulan Ini</strong>
+            <span id="month-count">—</span>
+          </div>
+        </div>
+
+        <a class="btn-explore" href="#kontak">Hubungi Abraham Daud</a>
+        <a class="btn-secondary" href="#beranda">Kembali ke Beranda</a>
+      </section>
+
+      <!-- Sisi Kanan: Animasi Vanta Cells + Statistik -->
+      <aside class="right-panel" aria-label="Animasi sel biologis interaktif">
+        <div class="panel-badge">Gerakkan kursor untuk berinteraksi</div>
+
+        <div class="visitor-metrics" aria-label="Statistik pengunjung">
+          <article class="visitor-metric">
+            <p class="visitor-metric-label">Total kunjungan</p>
+            <strong class="visitor-metric-value" id="total-count" aria-live="polite">—</strong>
+            <p class="visitor-metric-note">....</p>
+          </article>
+        </div>
+      </aside>
     </section>
 
   </main>
@@ -50,6 +73,25 @@
     <p class="footer-note">© <span id="visitor-year"></span> Abraham Daud</p>
     <p class="footer-note">Jumlah tersimpan</p>
   </footer>
+
+  <!-- Three.js dan Vanta.js Cells -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
+  <script>
+    VANTA.CELLS({
+      el: ".right-panel",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      color1: 0x758484,
+      color2: 0x602e06,
+      size: 0.90,
+      speed: 1.00
+    });
+  </script>
 
   <script src="visitor-tracker.js"></script>
   <script src="visitor-stats.js"></script>
