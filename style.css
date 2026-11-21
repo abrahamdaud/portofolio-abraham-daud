@@ -316,6 +316,33 @@ a { color: inherit; }
   font-size: 9px;
 }
 
+/* Tombol CTA "CV Saya" di dalam menu */
+.sidebar-links a.sidebar-link--cv {
+  justify-content: center;
+  margin-top: 16px;
+  min-height: 46px;
+  padding-inline: 14px;
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.sidebar-links a.sidebar-link--cv span {
+  color: var(--paper);
+  opacity: 0.55;
+}
+
+.sidebar-links a.sidebar-link--cv:hover,
+.sidebar-links a.sidebar-link--cv:focus-visible {
+  padding-left: 14px;
+  border-color: var(--link-hover);
+  background: var(--link-hover);
+  color: var(--paper);
+}
+
 .sidebar-footer {
   display: flex;
   justify-content: space-between;
