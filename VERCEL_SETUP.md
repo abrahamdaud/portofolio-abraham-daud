@@ -9,6 +9,6 @@ The counter uses a Vercel Function and a private Vercel Blob store. Each visitor
 
 Vercel provides the Blob credentials to the server function. They are never exposed in browser JavaScript. Do not add a Blob token or any other secret to the repository.
 
-New visit records are rate limited to one per IP per minute. Visit markers are stored under `portfolio-visits/` and rate-limit markers under `portfolio-rate/` in the same private store.
+New visit records are rate limited to at most 30 per IP per minute, which still allows several people on the same campus/office network to be counted. Visit markers are stored under `portfolio-visits/` and rate-limit markers under `portfolio-rate/` in the same private store.
 
 The count is intended for a small portfolio and is approximate: the public endpoint can still be called by automated clients, and deleting cookies makes the browser count as a new visitor. Add stronger rate limiting or move to a counter database if the site grows substantially.

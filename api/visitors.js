@@ -8,7 +8,8 @@ const PAGE_SIZE = 1000;
 const COOKIE_NAME = 'ad_visitor';
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 730; // 2 tahun
 const VISITOR_ID_PATTERN = /^[a-zA-Z0-9_-]{20,64}$/;
-const RATE_WINDOW_MS = 60 * 1000; // 1 kunjungan baru per menit per IP
+const RATE_WINDOW_MS = 60 * 1000; // jendela 1 menit
+const RATE_LIMIT = 30; // maksimal kunjungan baru per IP per menit
 
 function sendJson(response, status, data) {
   response.status(status).setHeader('Cache-Control', 'no-store, max-age=0');
@@ -79,26 +80,29 @@ function getClientIp(request) {
   return (request.socket && request.socket.remoteAddress) || 'unknown';
 }
 
-// Batasi pembuatan kunjungan baru: satu per IP per menit.
-// Penanda disimpan sebagai blob terpisah agar tidak ikut terhitung sebagai kunjungan.
-async function isRateLimited(request) {
+// Batasi pembuatan kunjungan baru per IP agar endpoint tidak bisa dibanjiri.
+// Setiap kunjungan baru memakai satu "slot" blob pada jendela 1 menit.
+// Penanda disimpan terpisah agar tidak ikut terhitung sebagai kunjungan.
+async function reserveRateSlot(request) {
   const windowId = Math.floor(Date.now() / RATE_WINDOW_MS);
   const ipHash = createHash('sha256').update(getClientIp(request)).digest('hex').slice(0, 40);
-  const pathname = `${RATE_PREFIX}${windowId}/${ipHash}`;
 
-  if (await blobExists(pathname)) return true;
-
-  try {
-    await put(pathname, '1', {
-      access: 'private',
-      addRandomSuffix: false,
-      allowOverwrite: false,
-      contentType: 'text/plain'
-    });
-    return false;
-  } catch {
-    return true;
+  for (let slot = 1; slot <= RATE_LIMIT; slot += 1) {
+    const pathname = `${RATE_PREFIX}${windowId}/${ipHash}/${slot}`;
+    try {
+      await put(pathname, '1', {
+        access: 'private',
+        addRandomSuffix: false,
+        allowOverwrite: false,
+        contentType: 'text/plain'
+      });
+      return true;
+    } catch {
+      // Slot sudah terpakai, coba slot berikutnya.
+    }
   }
+
+  return false;
 }
 
 export default async function handler(request, response) {
@@ -148,7 +152,7 @@ export default async function handler(request, response) {
     return sendJson(response, 200, { recorded: false });
   }
 
-  if (await isRateLimited(request)) {
+  if (!(await reserveRateSlot(request))) {
     response.setHeader('Retry-After', '60');
     return sendJson(response, 429, { error: 'rate_limited' });
   }
