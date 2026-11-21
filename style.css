@@ -1542,6 +1542,15 @@ h1 span {
   grid-template-columns: minmax(0, 600px);
   gap: 14px;
   margin-top: 40px;
+  animation: fade-in-up 650ms both;
+}
+
+.visitor-metrics .visitor-metric-value {
+  animation: pulse-count 3s ease-in-out infinite;
+}
+
+.visitor-metrics::before {
+  animation: gradient-shift 15s ease infinite;
 }
 
 .visitor-metric {
@@ -1688,6 +1697,31 @@ html.is-loading .loading-screen { display: grid; }
 @keyframes rise-in {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-count {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes border-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(212, 155, 99, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(212, 155, 99, 0.4); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @keyframes logo-type {
