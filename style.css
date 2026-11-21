@@ -1546,7 +1546,7 @@ h1 span {
 }
 
 .visitor-metrics .visitor-metric-value {
-  animation: pulse-count 3s ease-in-out infinite;
+  font-size: calc(1rem + 2vw);
 }
 
 .visitor-metrics::before {
